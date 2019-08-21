@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SettingsService, SidebarService, SharedService, UserService } from "./service.index";
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
+import { UploadFileService } from './upload-file/upload-file.service';
 
 
 
@@ -18,7 +19,8 @@ import { LoginGuard } from './guards/login.guard';
     SidebarService, 
     SharedService,
     UserService,
-    LoginGuard
+    LoginGuard,
+    UploadFileService
   ],
 })
 export class ServiceModule { }
