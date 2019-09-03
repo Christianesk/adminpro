@@ -1,0 +1,70 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input #input (keyup)="searchDoctor(input.value)" type="text" class="form-control"
+                    placeholder="buscar médico...">
+            </div>
+        </div>
+    </div>
+</div>
+<!--Start Load Alert-->
+<app-load-alert *ngIf="loading"></app-load-alert>
+<!--End Load Alert-->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <button [routerLink]="['/medico','nuevo']" type="button"
+                        class="btn waves-effect waves-light btn-rounded btn-primary">
+                        <i class="fa fa-plus"></i> Crear Médico
+                    </button>
+                </div>
+                <h3 class="card-title">Médicos registrados (<small>{{totalRecords}}</small>)</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Médico</th>
+                                <th>Hospital</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let doctor of doctors">
+                                <td class="w70">
+                                    <img (click)="viewModal(doctor._id)" [src]="doctor.img | imagen:'doctor'"
+                                        class="img-50 img-circle">
+                                </td>
+                                <td>
+                                    {{doctor.name}}
+                                </td>
+                                <td>
+                                    {{doctor.hospital.name}}
+                                </td>
+                                <td>
+                                    <button [routerLink]="['/medico',doctor._id]" class="btn btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger " (click)="removeDoctor(doctor)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button (click)="changeFrom(-5)" class="btn btn-secondary">
+                        Anteriores
+                    </button>
+                    <button (click)="changeFrom(5)" class="btn btn-secondary ml-2">
+                        Siguientes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

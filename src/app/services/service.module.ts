@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SettingsService, SidebarService, SharedService, UserService } from "./service.index";
+import { SettingsService, SidebarService, SharedService, UserService, HospitalsService, DoctorService} from "./service.index";
 import { HttpClientModule } from '@angular/common/http';
 import { LoginGuard } from './guards/login.guard';
 import { UploadFileService } from './upload-file/upload-file.service';
@@ -15,14 +15,16 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
     CommonModule,
     HttpClientModule
   ],
-  providers:[
-    SettingsService, 
-    SidebarService, 
+  providers: [
+    SettingsService,
+    SidebarService,
     SharedService,
     UserService,
+    HospitalsService,
     LoginGuard,
     UploadFileService,
-    ModalUploadService
+    ModalUploadService,
+    DoctorService
   ],
 })
 export class ServiceModule { }

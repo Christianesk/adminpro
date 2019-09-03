@@ -17,7 +17,6 @@ export class ModalUploadComponent implements OnInit {
   constructor(public _uploadFileService: UploadFileService, public _modalUploadService: ModalUploadService) { }
 
   ngOnInit() {
-    this.lo
   }
 
   closeModal() {
@@ -49,11 +48,11 @@ export class ModalUploadComponent implements OnInit {
 
   uploadImage() {
     this._uploadFileService.uploadFile(this.imageUpload, this._modalUploadService.type, this._modalUploadService.id)
-      .then(() => {
-        this._modalUploadService.notification.emit((resp: any) => { });
+      .then(resp => {
+        this._modalUploadService.notification.emit(resp);
         this.closeModal();
       }).catch(err => {
-        console.log('Error en la carga...')
+        console.log('Error en la carga...');
       });
   }
 

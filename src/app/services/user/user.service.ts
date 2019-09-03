@@ -14,8 +14,8 @@ import { UploadFileService } from '../upload-file/upload-file.service';
 })
 export class UserService {
 
-  user: User;
-  token: string;
+  public user: User;
+  public token: string;
 
   constructor(public http: HttpClient, public router: Router, public _uploadFileService: UploadFileService) {
     this.loadStorage();
