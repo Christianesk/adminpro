@@ -5,7 +5,7 @@ import { URL_SERVICES } from 'src/app/config/config';
 
 import Swal from 'sweetalert2'
 
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UploadFileService } from '../upload-file/upload-file.service';
 
@@ -16,6 +16,7 @@ export class UserService {
 
   public user: User;
   public token: string;
+  public menu: any = [];
 
   constructor(public http: HttpClient, public router: Router, public _uploadFileService: UploadFileService) {
     this.loadStorage();
@@ -28,7 +29,12 @@ export class UserService {
       .pipe(map((resp: any) => {
         Swal.fire('Usario Creado', user.email, 'success');
         return resp.usuario;
-      }));
+      }),
+        catchError(err => {
+          Swal.fire(err.error.message, err.error.errors.errors.email.message, 'error')
+          throw err;
+        })
+      );
   }
 
   loginGoogle(token: string) {
@@ -36,7 +42,7 @@ export class UserService {
 
     return this.http.post(url, { token })
       .pipe(map((resp: any) => {
-        this.saveStorage(resp.id, resp.token, resp.user);
+        this.saveStorage(resp.id, resp.token, resp.user, resp.menu);
         return true;
       }));;
 
@@ -54,10 +60,16 @@ export class UserService {
     let url = URL_SERVICES + '/login';
 
     return this.http.post(url, user)
-      .pipe(map((resp: any) => {
-        this.saveStorage(resp.id, resp.token, resp.user);
-        return true;
-      }));
+      .pipe(
+        map((resp: any) => {
+          this.saveStorage(resp.id, resp.token, resp.user, resp.menu);
+          return true;
+        }),
+        catchError(err => {
+          Swal.fire('Error en login', err.error.message, 'error')
+          throw err;
+        })
+      );
 
   }
 
@@ -65,20 +77,24 @@ export class UserService {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.user = JSON.parse(localStorage.getItem('user'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.user = null;
+      this.menu = [];
     }
   }
 
 
-  saveStorage(id: string, token: string, user: User) {
+  saveStorage(id: string, token: string, user: User, menu: any) {
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('menu', JSON.stringify(menu));
 
     this.user = user;
     this.token = token;
+    this.menu = menu;
   }
 
   isLogged() {
@@ -88,9 +104,11 @@ export class UserService {
   logOut() {
     this.user = null;
     this.token = '';
+    this.menu = [];
 
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('menu');
 
     this.router.navigate(['/login']);
   }
@@ -103,12 +121,17 @@ export class UserService {
 
         if (user._id === this.user._id) {
           let userDB: User = resp.user;
-          this.saveStorage(userDB._id, this.token, userDB);
+          this.saveStorage(userDB._id, this.token, userDB, this.menu);
         }
 
         Swal.fire('Usuario Actualizado', user.name, 'success');
         return true;
-      }));
+      }),
+        catchError(err => {
+          Swal.fire(err.error.message, err.error.errors.errors.email.message, 'error')
+          throw err;
+        })
+      );
   }
 
 
@@ -117,7 +140,7 @@ export class UserService {
       .then((resp: any) => {
         this.user.img = resp.user.img;
         Swal.fire('Imagen actualizada', this.user.name, 'success');
-        this.saveStorage(id, this.token, this.user)
+        this.saveStorage(id, this.token, this.user, this.menu);
       }).catch(err => {
         console.log(err)
       });

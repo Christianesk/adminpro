@@ -29,7 +29,8 @@
                     </div>
 
                     <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
-                        <i class="fa fa-save"></i> Guardar</button>
+                        <i class="fa {{doctor._id == ''?'fa-save':'fa-refresh'}}"></i>
+                        {{doctor._id == ''?'Guardar':'Actualizar'}}</button>
                     <a routerLink="/medicos" class="btn btn-inverse waves-effect waves-light m-r-10">
                         <i class="fa fa-close"></i> Cancelar</a>
                 </form>
