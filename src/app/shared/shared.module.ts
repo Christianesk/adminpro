@@ -11,6 +11,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { LoadAlertComponent } from './load-alert/load-alert.component';
+import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 
 
 
@@ -26,14 +27,16 @@ import { LoadAlertComponent } from './load-alert/load-alert.component';
     HeaderComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    LoadAlertComponent
+    LoadAlertComponent,
+    ModalUploadComponent
   ],
   exports:[
     NopagefoundComponent,
     HeaderComponent,
     SidebarComponent,
     BreadcrumbsComponent,
-    LoadAlertComponent
+    LoadAlertComponent,
+    ModalUploadComponent
   ]
 })
 export class SharedModule { }

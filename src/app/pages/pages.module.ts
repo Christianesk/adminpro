@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { PagesComponent } from './pages.component';
-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Graficas1Component } from './graficas1/graficas1.component';
@@ -39,7 +37,6 @@ import { GlobalSearchComponent } from './global-search/global-search.component';
 
 @NgModule({
     declarations: [
-        PagesComponent,
         DashboardComponent,
         ProgressComponent,
         Graficas1Component,
@@ -50,7 +47,6 @@ import { GlobalSearchComponent } from './global-search/global-search.component';
         RxjsComponent,
         ProfileComponent,
         UsersComponent,
-        ModalUploadComponent,
         HospitalsComponent,
         DoctorsComponent,
         DoctorComponent,

@@ -1,4 +1,4 @@
-
+export { VerifyTokenGuard } from './guards/verify-token.guard';
 export { DoctorService } from './doctor/doctor.service';
 export { UploadFileService } from './upload-file/upload-file.service';
 export { LoginGuard } from './guards/login.guard';

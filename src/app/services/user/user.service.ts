@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/user.model';
 import { URL_SERVICES } from 'src/app/config/config';
 
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -22,6 +22,25 @@ export class UserService {
     this.loadStorage();
   }
 
+  renewToken() {
+
+    let url = URL_SERVICES + '/login/renewToken?token=' + this.token;
+
+    return this.http.get(url)
+      .pipe(
+        map((resp: any) => {
+          this.token = resp.token;
+          localStorage.setItem('token', this.token);
+          return true;
+        }),
+        catchError(err=>{
+          this.logOut();
+          Swal.fire('No se pudo renovar token', 'No fue posible renovar el token', 'error');
+          throw err;
+        })
+      );
+  }
+
   createUser(user: User) {
     let url = URL_SERVICES + '/user';
 
@@ -31,7 +50,7 @@ export class UserService {
         return resp.usuario;
       }),
         catchError(err => {
-          Swal.fire(err.error.message, err.error.errors.errors.email.message, 'error')
+          Swal.fire(err.error.message, err.error.errors.errors.email.message, 'error');
           throw err;
         })
       );
